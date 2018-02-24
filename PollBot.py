@@ -1,15 +1,15 @@
 import os
 import re
 import discord
-import asyncio
-import urllib.request
-import aiohttp
-import json
-import datetime
-import time
-import random
-import aiofiles
-import psycopg2
+#import asyncio
+#import urllib.request
+#import aiohttp
+#import json
+#import datetime
+#import time
+#import random
+#import aiofiles
+#import psycopg2
 
 def safe_div(x,y):
     if y > 0:
