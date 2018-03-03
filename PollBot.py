@@ -8,14 +8,12 @@ from sqlalchemy import Column, Integer, String,JSON
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from Models import Base, Poll
-from Settings import POLLBOT_KEY
+from Settings import POLLBOT_KEY,db_user,db_pass,db_name
 
 
 class PollBot(discord.Client):
     def __init__(self,*args,**kwargs):
-        db_user = "postgres"
-        db_pass = "#4#si8imp"
-        db_name = "pollsdb"
+
         engine = create_engine("postgresql+psycopg2://%s:%s@localhost/%s" % (db_user,db_pass,db_name))
         Base.metadata.create_all(engine)
 
