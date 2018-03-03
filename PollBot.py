@@ -8,7 +8,7 @@ from sqlalchemy import Column, Integer, String,JSON
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from Models import Base, Poll
-from Settings import POLLBOTTEST_KEY
+from Settings import POLLBOT_KEY
 
 
 class PollBot(discord.Client):
@@ -207,4 +207,4 @@ class PollBot(discord.Client):
 
 if __name__=="__main__":
     client = PollBot()
-    client.run(POLLBOTTEST_KEY)
+    client.run(POLLBOT_KEY)
