@@ -7,53 +7,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,JSON
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from Models import Base, Poll
+from Settings import POLLBOT_KEY
 
-def safe_div(x,y):
-    if y > 0:
-        return (float(x)/float(y)) * 100
-    else:
-        return float(0.00)
-
-class Poll(declarative_base()):
-    __tablename__ = 'polls'
-    id = Column(Integer,primary_key=True)
-    poll_message = Column(String(1000),nullable=True)
-    choices = Column(JSON)
-    voters = Column(JSON)
-    server = Column(String(255))
-    message_obj = Column(String(255))
-    one = Column(Integer,default=0)
-    one_voters = Column(JSON)
-    two = Column(Integer,default=0)
-    two_voters = Column(JSON)
-    three = Column(Integer,default=0)
-    three_voters = Column(JSON)
-    four = Column(Integer,default=0)
-    four_voters = Column(JSON)
-
-    def generate_text(self):
-        choice_text = "`%.3d%% (%s)` 1⃣: %s\n`%.3d%% (%s)` 2⃣: %s\n`%.3d%% (%s)` 3⃣: %s\n`%.3d%% (%s)` 4⃣: %s" % (safe_div(self.one,len(self.voters)),
-                                                                                self.one,
-                                                                                self.choices[0],
-                                                                                safe_div(self.two,len(self.voters)),
-                                                                                self.two,
-                                                                                self.choices[1],
-                                                                                safe_div(self.three,len(self.voters)),
-                                                                                self.three,
-                                                                                self.choices[2],
-                                                                                safe_div(self.four,len(self.voters)),
-                                                                                self.four,
-                                                                                self.choices[3])
-        full_msg = "`Poll p" + str(self.id) + "`\n" + self.poll_message + "\n" + choice_text + "\n"
-        return full_msg
 
 class PollBot(discord.Client):
     def __init__(self,*args,**kwargs):
-        Base = declarative_base()
-        db_user = ""
-        db_pass = ""
-        db_name = ""
-        engine = create_engine("postgresql+psycopg2://%s:%s@/%s" % (db_user,db_pass,db_name))
+        db_user = "postgres"
+        db_pass = "#4#si8imp"
+        db_name = "pollsdb"
+        engine = create_engine("postgresql+psycopg2://%s:%s@localhost/%s" % (db_user,db_pass,db_name))
         Base.metadata.create_all(engine)
 
         Base.metadata.bind = engine
@@ -231,7 +194,7 @@ class PollBot(discord.Client):
                     if not reg.group(1) is None:
                         #poll_msg += "%s\n" % reg.group(1)
                         print("Input %s" % (reg.group(1)))
-                        msg = await self.send_message(message.channel,'')
+                        msg = await self.send_message(message.channel,'Not Implemented yet but you will be able to close the poll this way.')
 
                 else:
                     msg = await self.send_message(message.channel,'Usage:```"<Question>"\n"<answer 1>"\n"<answer 2>"\n"<answer 3>"\n"<answer 4>"```')
@@ -242,5 +205,4 @@ if __name__=="__main__":
 
 
     client = PollBot()
-    token = None #<token>
-    client.run(token)
+    client.run(POLLBOT_KEY)
